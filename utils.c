@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mberri <mberri@student.42.fr>              +#+  +:+       +#+        */
+/*   By: simoberri <simoberri@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 00:24:53 by mberri            #+#    #+#             */
-/*   Updated: 2023/04/26 18:59:59 by mberri           ###   ########.fr       */
+/*   Updated: 2023/05/02 02:23:46 by simoberri        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-void init_variable(int *v1, int *v2, int *v3, int *v4, int *v5)
+void init_variable(int *v1, double *v2, double *v3, int *v4, int *v5)
 {
     *v1 = 0;
     *v2 = 0;

@@ -36,7 +36,7 @@
 # define KEY_RIGHT	124
 
 # define moveSpeed 1
-# define rotSpeed 3
+# define rotSpeed 10
 
 # include <unistd.h>
 # include <stdlib.h>
@@ -51,18 +51,19 @@ typedef struct s_player{
     int y;
     int fov;
     int angle;
-    int ray_angle;
+    double ray_angle;
     double increment_angle;
     int presicion;
-    int ray_x;
-    int ray_y;
+    double ray_x;
+    double ray_y;
     void *mlx;
     void *win;
     void *img;
     char **map;
 }t_player;
 
-void    init_variable(int *v1, int *v2, int *v3, int *v4, int *v5);
+int     key_release(int keycode, t_player *mv);
+void    init_variable(int *v1, double *v2, double *v3, int *v4, int *v5);
 int     key_press(int keycode, t_player *mv);
 void    key_up(t_player *player);
 void    key_down(t_player *player);
