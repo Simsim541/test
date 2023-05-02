@@ -15,10 +15,10 @@
 t_player *init_var()
 {
     t_player *pl;
+
     pl = malloc(sizeof(t_player));
     pl->fov = 60;
     pl->angle = 90;
-    pl->ray_angle = pl->angle - (pl->fov / 2);
     pl->increment_angle = (double)pl->fov / (double)(WIDTH);
     pl->ray_x = 0;
     pl->ray_y = 0;
@@ -27,29 +27,28 @@ t_player *init_var()
 }
 
 
-int key_release(int keycode, t_player *mv)
+int key_release(int keycode, t_data *mv)
 {
-     if (keycode <= 148 && keycode != 119 && keycode != 115 && keycode != 97 && keycode != 100)
+     if (keycode == KEY_ESC)
         exit(0);
-    if (keycode == 119)
+    if (keycode == KEY_W)
         key_up(mv);
-    if (keycode == 115)
+    if (keycode == KEY_S)
         key_down(mv);
-    if (keycode == 97)
+    if (keycode == KEY_A)
         key_left(mv);
-    if (keycode == 100)
+    if (keycode == KEY_D)
         key_right(mv);
     return (0);
 }
 
 int main(int ac, char **av)
 {
-    t_player *player;
+    t_data data;
     (void)ac;
     (void)av;
 
     int fd;
-    player = init_var();
     char **line;
     int i;
 
@@ -60,13 +59,13 @@ int main(int ac, char **av)
     line[i] = get_next_line(fd);
     while (line[i])
         line[++i] = get_next_line(fd);
-    player->map = line;
-    player->mlx = mlx_init();
-    player->win = mlx_new_window(player->mlx, WIDTH, HEIGHT, "Cub3D");
-    // ft_paint(player);
-    init_raycasting(player);
-    mlx_hook(player->win, 3, 1L << 1, key_release, player);
-    mlx_hook(player->win, 17, 0, &destroy_notify, player);
-    mlx_loop(player->mlx);
+    data.player = init_var();
+    data.mlx = mlx_init();
+    data.mlx_win = mlx_new_window(data.mlx, WIDTH, HEIGHT, "Cub3D");
+    data.map = line;
+    init_raycasting(&data);
+    mlx_hook(data.mlx_win, 3, 1L << 1, key_release, &data);
+    mlx_hook(data.mlx_win, 17, 0, &destroy_notify, &data);
+    mlx_loop(data.mlx);
     return (0);
 }

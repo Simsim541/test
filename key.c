@@ -12,46 +12,60 @@
 
 #include "header.h"
 
-void    key_up(t_player *player)
+void    key_up(t_data *data)
+{
+    mlx_clear_window(data->mlx, data->mlx_win);
+    int new_x;
+    int new_y;
+
+    new_x = floor(cos(degree_to_radian(data->player->angle)) * moveSpeed);
+    new_y = floor(sin(degree_to_radian(data->player->angle)) * moveSpeed);
+    if (data->map[data->player->y + new_y][data->player->x + new_x] != '1' && data->map[data->player->y + new_y][data->player->x + new_x] == '0')
+    {
+        data->map[data->player->y + new_y][data->player->x + new_x] = 'P';
+        data->map[data->player->y][data->player->x] = '0';
+        init_raycasting(data);
+    }
+    else
+    {
+        init_raycasting(data);
+        return ;
+    }
+}
+
+void    key_down(t_data *data)
 {
     int new_x;
     int new_y;
 
-    new_x = floor(cos(degree_to_radian(player->angle)) / moveSpeed);
-    new_y = floor(sin(degree_to_radian(player->angle)) / moveSpeed);
-    if (player->map[player->y + new_y][player->x + new_x] != '1')
+    mlx_clear_window(data->mlx, data->mlx_win);
+    new_x = floor(cos(degree_to_radian(data->player->angle)) * moveSpeed);
+    new_y = floor(sin(degree_to_radian(data->player->angle)) * moveSpeed);
+    if (data->map[data->player->y - new_y][data->player->x - new_x] != '1' && data->map[data->player->y - new_y][data->player->x - new_x] == '0')
     {
-       player->map[player->y + new_y][player->x + new_x] = 'P';
-        player->map[player->y][player->x] = '0';
-        find_player(player);
-        init_raycasting(player);
+        data->map[data->player->y - new_y][data->player->x - new_x] = 'P';
+        data->map[data->player->y][data->player->x] = '0';
+        init_raycasting(data);
+    }
+    else
+    {
+        init_raycasting(data);
+        return ;
     }
 }
 
-void    key_down(t_player *player)
+void    key_left(t_data *data)
 {
-    int new_x;
-    int new_y;
-
-    new_x = floor(cos(degree_to_radian(player->angle)) / moveSpeed);
-    new_y = floor(sin(degree_to_radian(player->angle)) / moveSpeed);
-    if (player->map[player->y - new_y][player->x - new_x] != '1')
-    {
-        player->map[player->y - new_y][player->x - new_x] = 'P';
-        player->map[player->y][player->x] = '0';
-        find_player(player);
-        init_raycasting(player);
-    }
+    mlx_clear_window(data->mlx, data->mlx_win);
+    data->player->angle -= rotSpeed;
+    printf("angle: %d\n", data->player->angle);
+    init_raycasting(data);
 }
 
-void    key_left(t_player *player)
+void    key_right(t_data *data)
 {
-    player->angle -= rotSpeed;
-   // init_raycasting(player);
-}
-
-void    key_right(t_player *player)
-{
-    player->angle += rotSpeed;
-    //init_raycasting(player);
+    mlx_clear_window(data->mlx, data->mlx_win);
+    data->player->angle += rotSpeed;
+    printf("angle: %d\n", data->player->angle);
+    init_raycasting(data);
 }

@@ -35,7 +35,7 @@
 # define KEY_LEFT	123
 # define KEY_RIGHT	124
 
-# define moveSpeed 1
+# define moveSpeed 2
 # define rotSpeed 10
 
 # include <unistd.h>
@@ -46,39 +46,55 @@
 # include <math.h>
 # include <stdio.h>
 
+/*typedef struct s_data {
+    void	*img;
+    char	*addr;
+    int		bits_per_pixel;
+    int		line_length;
+    int		endian;
+}	t_data;*/
+
 typedef struct s_player{
-    int x;
-    int y;
-    int fov;
-    int angle;
-    double ray_angle;
-    double increment_angle;
-    int presicion;
-    double ray_x;
-    double ray_y;
-    void *mlx;
-    void *win;
-    void *img;
-    char **map;
+    int     x;
+    int     y;
+    int     fov;
+    int     angle;
+    double  ray_angle;
+    double  increment_angle;
+    int     presicion;
+    double  ray_x;
+    double  ray_y;
 }t_player;
 
-int     key_release(int keycode, t_player *mv);
+typedef struct s_data
+{
+    void        *mlx;
+    void        *mlx_win;
+    void        *img;
+    char        **map;
+    t_player    *player;
+}t_data;
+
+//Key functions
+int     key_release(int keycode, t_data *mv);
+void    key_up(t_data       *data);
+void    key_down(t_data     *data);
+void    key_left(t_data     *data);
+void    key_right(t_data    *data);
+
 void    init_variable(int *v1, double *v2, double *v3, int *v4, int *v5);
-int     key_press(int keycode, t_player *mv);
-void    key_up(t_player *player);
-void    key_down(t_player *player);
-void    key_left(t_player *player);
-void    key_right(t_player *player);
-void    find_player(t_player  *pl);
+void    find_player(t_data  *pl);
 void    ft_exit();
-int     destroy_notify(t_player   *game);
-void    circle(t_player *game, int x, int y, int color);
-void    draw(t_player *game, int ray_count, int wall_height);
-void    init_raycasting(t_player *player);
-int     degree_to_radian(int degree);
-void    paint_ceiling(t_player *game);
-void    ft_paint(t_player *game);
-void    paint_floor(t_player *game);
+int     destroy_notify(t_data *game);
+void    circle(t_data *data, int x, int y, int color);
+void    draw_wall(t_data *data, int ray_count, int wall_height);
+void    init_raycasting(t_data *data);
+int       degree_to_radian(int degree);
+void    paint_ceiling(t_data *data);
+void    ft_paint(t_data *data);
+void    paint_floor(t_data *data);
+
+//get_next_line functions
 char	*get_next_line(int fd);
 int		read_file(char **buffer, char **line, char **text, int fd);
 char	*get_line(char **text, char **line);

@@ -12,7 +12,7 @@
 
 #include "header.h"
 
-void circle(t_player *game, int y, int x, int color)
+void circle(t_data *data, int y, int x, int color)
 {
     int i;
     int j;
@@ -26,14 +26,14 @@ void circle(t_player *game, int y, int x, int color)
         while (j <= r)
         {
             if (i * i + j * j <= r * r)
-                mlx_pixel_put(game->mlx, game->win, x + i, y + j, color);
+                mlx_pixel_put(data->mlx, data->mlx_win, x + i, y + j, color);
             j++;
         }
         i++;
     }
 }
 
-void paint_floor(t_player *game)
+void paint_floor(t_data *data)
 {
     int x;
     int y;
@@ -45,14 +45,14 @@ void paint_floor(t_player *game)
         x = 0;
         while (x < WIDTH)
         {
-            mlx_pixel_put(game->mlx, game->win, x, y, 0x0000FF);
+            mlx_pixel_put(data->mlx, data->mlx_win, x, y, 0x0066CC);
             x++;
         }
      y++;
     }
 }
 
-void    paint_ceiling(t_player *game)
+void    paint_ceiling(t_data *data)
 {
     int x;
     int y;
@@ -64,16 +64,17 @@ void    paint_ceiling(t_player *game)
         x = 0;
         while (x < WIDTH)
         {
-            mlx_pixel_put(game->mlx, game->win, x, y, 0x808080);
+            mlx_pixel_put(data->mlx, data->mlx_win, x, y, 0x00CCFF);
             x++;
         }
      y++;
     }
 }
 
-void ft_paint(t_player *game)
+void ft_paint(t_data *data)
 {
-    paint_floor(game);
-    paint_ceiling(game);
-    circle(game, game->y, game->x, 0x00FF00);
+    find_player(data);
+    paint_floor(data);
+    paint_ceiling(data);
+    circle(data, data->player->y * TILE_SIZE, data->player->x * TILE_SIZE, 0x00FF00);
 }

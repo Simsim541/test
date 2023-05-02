@@ -26,10 +26,10 @@ void ft_exit()
     exit(1);
 } 
 
-int destroy_notify(t_player *game)
+int destroy_notify(t_data *game)
 {
 	printf("EXITED SUCCESFULLY\n");
-	mlx_destroy_window(game->mlx, game->win);
+	mlx_destroy_window(game->mlx, game->mlx_win);
     free(game);
 	ft_exit();
     return(0);
@@ -40,7 +40,7 @@ int degree_to_radian(int degree)
     return (degree * (M_PI / 180));
 }
 
-void    find_player(t_player  *pl)
+void    find_player(t_data  *pl)
 {
     int i;
     int j;
@@ -53,8 +53,8 @@ void    find_player(t_player  *pl)
         {
             if (pl->map[i][j] == 'P')
             {
-                pl->x = j;
-                pl->y = i;
+                pl->player->x = j;
+                pl->player->y = i;
                 return ;
             }
             j++;
