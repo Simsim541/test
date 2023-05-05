@@ -3,40 +3,60 @@
 #                                                         :::      ::::::::    #
 #    makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mberri <mberri@student.42.fr>              +#+  +:+       +#+         #
+#    By: simoberri <simoberri@student.42.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/20 18:48:19 by mberri            #+#    #+#              #
-#    Updated: 2023/04/26 19:00:58 by mberri           ###   ########.fr        #
+#    Updated: 2023/05/03 16:32:34 by simoberri        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CC=gcc
+NAME		=	cub_3d
+CC			=	gcc
+FLAGS		=	-Wall -Wextra -Werror
+MLX			=	mlx/Makefile.gen
+LFT			=	Libft/libft.a
+INC			=	-I ./inc -I ./Libft -I ./mlx
+LIB			=	-L ./Libft -lft -L ./mlx -lmlx -lXext -lX11 -lm -lbsd
+OBJ			=	$(patsubst src%, obj%, $(SRC:.c=.o))
+SRC			=	gnl.c			\
+				gnl_utils.c		\
+				main.c			\
+				paint.c			\
+				ft_raycasting.c	\
+				utils.c			\
+				key.c			\
 
-NAME=cub3D
+all:		$(MLX) $(LFT) obj $(NAME)
 
-CFLAGS=-Wall -Wextra -Werror 
+$(NAME):	$(OBJ)
+			$(CC) $(FLAGS) -fsanitize=address -o $@ $^ $(LIB)
 
-SRCS= main.c		\
-	gnl.c			\
-	gnl_utils.c		\
-	paint.c			\
-	utils.c			\
-	ft_raycasting.c \
-	key.c			\
-	
-BOBJCTS=$(BSRCS:%.c=%.o)
+$(MLX):
+			@echo " [ .. ] | Compiling minilibx.."
+			@make -s -C mlx
+			@echo " [ OK ] | Minilibx ready!"
 
-OBJCTS=$(SRCS:%.c=%.o)
+$(LFT):		
+			@echo " [ .. ] | Compiling Libft.."
+			@make -s -C Libft
+			@echo " [ OK ] | Libft ready!"
 
-$(NAME) : $(OBJCTS)
-		CC $(CFLAGS) -L /usr/local/lib -lmlx -framework OpenGl -framework AppKit $(OBJCTS) -o $(NAME)
+obj:
+			@mkdir -p obj
 
-all: $(NAME)
+obj/%.o:	src/%.c
+			$(CC) $(FLAGS) $(INC) -o $@ -c $<
 
 clean:
-		rm -f $(OBJCTS) $(BOBJCTS)
+			@make -s $@ -C Libft
+			@rm -rf $(OBJ) obj
+			@echo "object files removed."
 
-fclean: clean
-		rm -f $(NAME)
-		
-re: fclean all
+fclean:		clean
+			@make -s $@ -C Libft
+			@rm -rf $(NAME)
+			@echo "binary file removed."
+
+re:			fclean all
+
+.PHONY:		all clean fclean re

@@ -6,13 +6,13 @@
 /*   By: simoberri <simoberri@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 00:24:53 by mberri            #+#    #+#             */
-/*   Updated: 2023/05/02 02:23:46 by simoberri        ###   ########.fr       */
+/*   Updated: 2023/05/04 00:38:07 by simoberri        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-void init_variable(int *v1, double *v2, double *v3, int *v4, int *v5)
+void init_variable(int *v1, double *v2, double *v3, double *v4, int *v5)
 {
     *v1 = 0;
     *v2 = 0;
@@ -35,7 +35,7 @@ int destroy_notify(t_data *game)
     return(0);
 }
 
-int degree_to_radian(int degree)
+double degree_to_radian(double degree)
 {
     return (degree * (M_PI / 180));
 }
